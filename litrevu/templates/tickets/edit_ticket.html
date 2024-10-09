@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Modifier le billet{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2>Modifier le billet</h2>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="title" class="form-label">Titre du billet</label>
+                    <input type="text" class="form-control" id="title" name="title" value="{{ form.title.value }}" required>
+                    {% if form.title.errors %}
+                        <div class="text-danger">
+                            {% for error in form.title.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" required>{{ form.description.value }}</textarea>
+                    {% if form.description.errors %}
+                        <div class="text-danger">
+                            {% for error in form.description.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" class="form-control" id="image" name="image">
+                    {% if form.image.errors %}
+                        <div class="text-danger">
+                            {% for error in form.image.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

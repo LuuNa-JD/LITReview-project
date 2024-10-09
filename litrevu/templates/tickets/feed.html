@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Flux des Posts</h2>
+    <a href="{% url 'add_ticket' %}" class="btn btn-primary">Demander une critique</a>
+    <div class="row">
+        {% for ticket in tickets %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ ticket.title }}</h5>
+                        <p class="card-text">{{ ticket.description }}</p>
+                        {% if ticket.image %}
+                            <img src="{{ ticket.image.url }}" class="img-fluid" alt="Image pour {{ ticket.title }}">
+                        {% endif %}
+                        {% if user == ticket.user %}
+                            <a href="{% url 'edit_ticket' ticket.id %}" class="btn btn-secondary mt-3">Modifier</a>
+                            <a href="{% url 'delete_ticket' ticket.id %}" class="btn btn-danger mt-3">Supprimer</a>
+                        {% endif %}
+                        <a href="{% url 'create_review' ticket.id %}" class="btn btn-primary mt-3">Créer une Critique</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row mt-5">
+      {% for review in reviews %}
+          <div class="col-md-6 mb-4">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">Critique pour {{ review.ticket.title }}</h5>
+                      <p class="card-text">{{ review.comment }}</p>
+                      <p class="card-text"><strong>Note :</strong> {{ review.rating }} / 5</p>
+                      {% if user == review.user %}
+                          <a href="{% url 'edit_review' review.id %}" class="btn btn-secondary mt-3">Modifier</a>
+                          <a href="{% url 'delete_review' review.id %}" class="btn btn-danger mt-3">Supprimer</a>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+      {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmer la suppression{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2>Supprimer le billet</h2>
+            <p>Êtes-vous sûr de vouloir supprimer le billet "<strong>{{ ticket.title }}</strong>" ?</p>
+
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Supprimer</button>
+                <a href="{% url 'feed' %}" class="btn btn-secondary">Annuler</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -12,16 +12,10 @@ def add_ticket(request):
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.save()
-            return redirect('feed')  # Redirige vers le flux des posts une fois le ticket créé
+            return redirect('flux')  # Redirige vers le flux des posts une fois le ticket créé
     else:
         form = TicketForm()
     return render(request, 'tickets/add_ticket.html', {'form': form})
-
-# Vue pour voir le flux des posts (tickets et critiques)
-@login_required
-def post_feed_view(request):
-    tickets = Ticket.objects.all()
-    return render(request, 'tickets/feed.html', {'tickets': tickets})
 
 # Vue pour modifier un ticket
 @login_required
@@ -31,7 +25,7 @@ def edit_ticket(request, ticket_id):
         form = TicketForm(request.POST, request.FILES, instance=ticket)
         if form.is_valid():
             form.save()
-            return redirect('feed')  # Redirige vers le flux après modification
+            return redirect('flux')  # Redirige vers le flux après modification
     else:
         form = TicketForm(instance=ticket)
     return render(request, 'tickets/edit_ticket.html', {'form': form, 'ticket': ticket})
@@ -44,5 +38,5 @@ def delete_ticket(request, ticket_id):
         ticket.delete()
         if ticket.image:
             ticket.image.delete()
-        return redirect('feed')  # Redirige vers le flux après suppression
+        return redirect('flux')  # Redirige vers le flux après suppression
     return render(request, 'tickets/delete_ticket.html', {'ticket': ticket})

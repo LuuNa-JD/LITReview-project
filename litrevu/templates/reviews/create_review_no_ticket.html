@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Créer une critique</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <h3>Livre / Article</h3>
+        <div class="mb-3">
+            {{ form.ticket_title.label_tag }}
+            {{ form.ticket_title }}
+        </div>
+        <div class="mb-3">
+            {{ form.ticket_description.label_tag }}
+            {{ form.ticket_description }}
+        </div>
+        <div class="mb-3">
+            {{ form.ticket_image.label_tag }}
+            {{ form.ticket_image }}
+        </div>
+
+        <h3>Critique</h3>
+        <div class="mb-3">
+            {{ form.review_title.label_tag }}
+            {{ form.review_title }}
+        </div>
+        <div class="mb-3">
+            {{ form.review_rating.label_tag }}
+            {{ form.review_rating }}
+        </div>
+        <div class="mb-3">
+            {{ form.review_comment.label_tag }}
+            {{ form.review_comment }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+    </form>
+</div>
+{% endblock %}

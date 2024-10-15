@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Suivre d'autres utilisateurs</h2>
+    <form method="POST" action="{% url 'subscriptions' %}">
+        {% csrf_token %}
+        <div class="mb-3 d-flex">
+            <input type="text" name="username" placeholder="Nom d'utilisateur" class="form-control me-3">
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+        </div>
+    </form>
+
+    <h3>Abonnements</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Utilisateur</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for follow in following %}
+                <tr>
+                    <td>{{ follow.followed_user.username }}</td>
+                    <td>
+                        <a href="{% url 'unfollow_user' follow.followed_user.id %}" class="btn btn-danger">Désabonner</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Abonnés</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Utilisateur</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for follow in followers %}
+                <tr>
+                    <td>{{ follow.user.username }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

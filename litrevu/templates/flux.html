@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Flux des Posts</h2>
+    <div class="d-flex justify-content-between mb-4">
+        <a href="{% url 'add_ticket' %}" class="btn btn-primary">Demander une critique</a>
+        <a href="{% url 'create_review_no_ticket' %}" class="btn btn-secondary">Créer une critique</a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Boucle sur les critiques de l'utilisateur -->
+            <h4>Vos critiques</h4>
+            {% for review in reviews %}
+                {% if review.user == user %}
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ review.comment }}</h5>
+                            <p class="card-text">★★★★★</p>
+                            <p class="card-text">{{ review.comment }}</p>
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ review.ticket.title }}</h5>
+                                    <p class="card-text">{{ review.ticket.description }}</p>
+                                    {% if review.ticket.image %}
+                                        <img src="{{ review.ticket.image.url }}" class="img-fluid" alt="Image du ticket">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-muted">{{ review.created_at|date:"H:i, d M Y" }}</p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            <!-- Boucle sur les tickets des autres utilisateurs -->
+            <h4>Demandes de critiques</h4>
+            {% for ticket in tickets %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ ticket.title }}</h5>
+                        <p class="card-text">{{ ticket.description }}</p>
+                        {% if ticket.image %}
+                            <img src="{{ ticket.image.url }}" class="img-fluid mb-3" alt="Image pour {{ ticket.title }}">
+                        {% endif %}
+                        <div class="d-flex justify-content-between align-items-center">
+                            {% if ticket.id not in reviewed_tickets %}
+                                <a href="{% url 'create_review' ticket.id %}" class="btn btn-primary">Créer une critique</a>
+                            {% else %}
+                                <button class="btn btn-secondary" disabled>Critique déjà postée</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <p class="text-muted">{{ ticket.created_at|date:"H:i, d M Y" }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

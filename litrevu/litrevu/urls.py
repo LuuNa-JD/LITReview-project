@@ -25,6 +25,8 @@ urlpatterns = [
     path('', user_views.login_view,name='login'),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
+    path('flux/', views.flux_view, name='flux'),
     path('tickets/', include('tickets.urls')),
     path('reviews/', include('reviews.urls')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

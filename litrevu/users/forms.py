@@ -6,6 +6,12 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ('email', 'username', 'first_name', 'last_name')  # Inclure le champ username
+        labels = {
+            'email': 'Adresse email',
+            'username': 'Nom d\'utilisateur',
+            'first_name': 'Prénom',
+            'last_name': 'Nom de famille'
+        }
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:

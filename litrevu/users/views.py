@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
 from django.contrib.auth import logout
 from .forms import CustomUserCreationForm
@@ -68,7 +67,8 @@ def subscriptions_view(request):
     }
     return render(request, 'subscriptions.html', context)
 
-# Vue pour se désabonner
+User = get_user_model()
+
 @login_required
 def unfollow_user(request, user_id):
     user_to_unfollow = get_object_or_404(User, id=user_id)

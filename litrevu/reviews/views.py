@@ -54,7 +54,7 @@ def edit_review_view(request, review_id):
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
             form.save()
-            return redirect('flux')
+            return redirect('user_posts')
     else:
         form = ReviewForm(instance=review)
     return render(request, 'reviews/edit_review.html', {'form': form, 'review': review})
@@ -64,5 +64,17 @@ def delete_review_view(request, review_id):
     review = get_object_or_404(Review, id=review_id, user=request.user)
     if request.method == 'POST':
         review.delete()
-        return redirect('flux')
+        return redirect('user_posts')
     return render(request, 'reviews/delete_review.html', {'review': review})
+
+@login_required
+def delete_ticket_with_review(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+
+    # Vérifie si l'utilisateur est bien le créateur du ticket
+    if ticket.user == request.user:
+        # Supprimer le ticket entraînera également la suppression de la critique associée grâce à on_delete=models.CASCADE
+        ticket.delete()
+
+        return redirect('user_posts')  # Redirection après suppression
+    return render(request, 'tickets/delete_ticket_&_review.html', {'ticket': ticket})

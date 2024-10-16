@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %}Modifier le billet{% endblock %}
+{% block title %}Modifier le ticket{% endblock %}
 
 {% block content %}
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h2>Modifier le billet</h2>
+            <h2>Modifier le ticket</h2>
 
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
 
                 <div class="mb-3">
-                    <label for="title" class="form-label">Titre du billet</label>
+                    <label for="title" class="form-label">Titre du Ticket</label>
                     <input type="text" class="form-control" id="title" name="title" value="{{ form.title.value }}" required>
                     {% if form.title.errors %}
                         <div class="text-danger">
@@ -34,8 +34,18 @@
                     {% endif %}
                 </div>
 
+                <!-- Afficher l'image actuelle si elle existe -->
+                {% if form.instance.image %}
+                    <div class="mb-3">
+                        <label class="form-label">Image actuelle :</label>
+                        <div>
+                            <img src="{{ form.instance.image.url }}" alt="Image actuelle" class="img-fluid mb-3">
+                        </div>
+                    </div>
+                {% endif %}
+
                 <div class="mb-3">
-                    <label for="image" class="form-label">Image</label>
+                    <label for="image" class="form-label">Changer d'image</label>
                     <input type="file" class="form-control" id="image" name="image">
                     {% if form.image.errors %}
                         <div class="text-danger">

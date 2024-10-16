@@ -1,10 +1,68 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center">Modifier la Critique</h2>
+    <h2 class="text-center">Modifier votre critique</h2>
+
+    <!-- Affichage des informations du ticket -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">{{ review.ticket.user.username }} a demandé une critique</h5>
+            <p class="card-text"><strong>{{ review.ticket.title }}</strong> - {{ review.ticket.description }}</p>
+            {% if review.ticket.image %}
+                <img src="{{ review.ticket.image.url }}" class="img-fluid mb-3" alt="Image pour {{ review.ticket.title }}">
+            {% endif %}
+            <p class="text-muted">{{ review.ticket.time_created|date:"H:i, d M Y" }}</p>
+        </div>
+    </div>
+
+    <!-- Formulaire pour modifier la critique -->
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <!-- Critique -->
+        <div class="mb-3">
+            <label for="title" class="form-label">Titre</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ form.title.value|default_if_none:'' }}" required>
+            {% if form.title.errors %}
+                <div class="text-danger">
+                    {% for error in form.title.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Note -->
+        <div class="mb-3">
+            <label for="rating" class="form-label">Note</label>
+            <div>
+                {% for i in "012345" %}
+                    <input type="radio" id="rating_{{ i }}" name="rating" value="{{ i }}" {% if form.rating.value == i %}checked{% endif %}>
+                    <label for="rating_{{ i }}"> {{ i }} </label>
+                {% endfor %}
+            </div>
+            {% if form.rating.errors %}
+                <div class="text-danger">
+                    {% for error in form.rating.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Commentaire -->
+        <div class="mb-3">
+            <label for="comment" class="form-label">Commentaire</label>
+            <textarea class="form-control" id="comment" name="comment" required>{{ form.comment.value|default_if_none:'' }}</textarea>
+            {% if form.comment.errors %}
+                <div class="text-danger">
+                    {% for error in form.comment.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
         <button type="submit" class="btn btn-primary btn-block mt-4">Mettre à jour la Critique</button>
     </form>
 </div>

@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from .models import UserFollows
+from django.contrib import messages
 
 def signup_view(request):
     if request.method == 'POST':
@@ -54,12 +55,16 @@ def subscriptions_view(request):
             user_to_follow = User.objects.get(username=username_to_follow)
 
             # Vérifier que l'utilisateur ne suit pas déjà cette personne
-            if not UserFollows.objects.filter(user=request.user, followed_user=user_to_follow).exists():
+            if user_to_follow == request.user:
+                messages.error(request, "Vous ne pouvez pas vous suivre vous-même.")
+            elif not UserFollows.objects.filter(user=request.user, followed_user=user_to_follow).exists():
                 UserFollows.objects.create(user=request.user, followed_user=user_to_follow)
-
+                messages.success(request, f"Vous suivez maintenant {user_to_follow.username} !")
+            else:
+                messages.info(request, f"Vous suivez déjà {user_to_follow.username}.")
         except User.DoesNotExist:
             # Gestion de l'erreur si l'utilisateur n'existe pas
-            pass
+            messages.error(request, "Cet utilisateur n'existe pas.")
 
     context = {
         'following': following,
@@ -73,4 +78,5 @@ User = get_user_model()
 def unfollow_user(request, user_id):
     user_to_unfollow = get_object_or_404(User, id=user_id)
     UserFollows.objects.filter(user=request.user, followed_user=user_to_unfollow).delete()
+    messages.success(request, f"Vous ne suivez plus {user_to_unfollow.username}.")
     return redirect('subscriptions')

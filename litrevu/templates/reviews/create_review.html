@@ -2,6 +2,20 @@
 {% block content %}
 <div class="container mt-5">
     <h2 class="text-center">Créer une Critique pour "{{ ticket.title }}"</h2>
+
+    <!-- Affichage du billet -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">{{ ticket.title }}</h4>
+            <p class="card-text">{{ ticket.description }}</p>
+            {% if ticket.image %}
+                <img src="{{ ticket.image.url }}" class="img-fluid mb-3" alt="Image pour {{ ticket.title }}">
+            {% endif %}
+            <p class="text-muted">Posté par {{ ticket.user.username }} le {{ ticket.time_created|date:"d M Y H:i" }}</p>
+        </div>
+    </div>
+
+    <!-- Formulaire de création de critique -->
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}

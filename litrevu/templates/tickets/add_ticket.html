@@ -12,7 +12,7 @@
 
                 <div class="mb-3">
                     <label for="title" class="form-label">Titre du billet</label>
-                    <input type="text" class="form-control" id="title" name="title" value="{{ form.title.value }}" required>
+                    <input type="text" class="form-control" id="title" name="title" value="{{ form.title.value|default_if_none:'' }}" required>
                     {% if form.title.errors %}
                         <div class="text-danger">
                             {% for error in form.title.errors %}
@@ -24,7 +24,7 @@
 
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" name="description" required>{{ form.description.value }}</textarea>
+                    <textarea class="form-control" id="description" name="description" required>{{ form.description.value|default_if_none:'' }}</textarea>
                     {% if form.description.errors %}
                         <div class="text-danger">
                             {% for error in form.description.errors %}

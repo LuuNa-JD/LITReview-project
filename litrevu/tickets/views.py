@@ -25,7 +25,7 @@ def edit_ticket(request, ticket_id):
         form = TicketForm(request.POST, request.FILES, instance=ticket)
         if form.is_valid():
             form.save()
-            return redirect('flux')  # Redirige vers le flux après modification
+            return redirect('user_posts')  # Redirige vers le flux après modification
     else:
         form = TicketForm(instance=ticket)
     return render(request, 'tickets/edit_ticket.html', {'form': form, 'ticket': ticket})
@@ -34,9 +34,9 @@ def edit_ticket(request, ticket_id):
 @login_required
 def delete_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id, user=request.user)  # Assure que seul l'auteur peut supprimer
+
     if request.method == 'POST':
-        ticket.delete()
-        if ticket.image:
-            ticket.image.delete()
-        return redirect('flux')  # Redirige vers le flux après suppression
-    return render(request, 'tickets/delete_ticket.html', {'ticket': ticket})
+        ticket.delete()  # Cela supprime le ticket et l'image associée grâce à django-cleanup
+        return redirect('user_posts')  # Redirige après la suppression
+
+    return render(request, 'tickets/confirm_delete.html', {'ticket': ticket})

@@ -2,6 +2,18 @@
 {% block content %}
 <div class="container mt-5">
     <h2 class="text-center mb-4">Suivre d'autres utilisateurs</h2>
+
+    <!-- Affichage des messages de succès ou d'erreur -->
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <form method="POST" action="{% url 'subscriptions' %}">
         {% csrf_token %}
         <div class="mb-3 d-flex">

@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('flux/', views.flux_view, name='flux'),
+    path('posts/', views.user_posts, name='user_posts'),
     path('tickets/', include('tickets.urls')),
     path('reviews/', include('reviews.urls')),
 

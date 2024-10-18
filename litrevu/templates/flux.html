@@ -1,52 +1,57 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-5">
-    <div class="d-flex justify-content-center mb-4">
-        <a href="{% url 'add_ticket' %}" class="btn btn-primary me-3">Demander une critique</a>
-        <a href="{% url 'create_review_no_ticket' %}" class="btn btn-secondary">Créer une critique</a>
-    </div>
+  <div class="d-flex justify-content-center mb-4">
+    <a href="{% url 'add_ticket' %}" class="btn btn-primary me-5" style="margin-right: 350px;" aria-label="Demander une critique pour un billet">Demander une critique</a>
+    <a href="{% url 'create_review_no_ticket' %}" class="btn btn-secondary" aria-label="Créer une critique sans billet">Créer une critique</a>
+  </div>
+</div>
 
-    <!-- Boucle pour afficher les billets et critiques -->
-    {% for post in posts %}
-        {% if post.post_type == 'ticket' %}
-            <!-- Affichage des billets -->
-            <div class="card mb-4">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between">
-                    <p><strong>{{ post.user.username }}</strong> {% if post.is_owner %} (vous) {% endif %} a demandé une critique</p>
-                    <!-- Ajout de la date de création du billet en haut à droite -->
-                    <p class="text-muted">{{ post.time_created|date:"H:i, d M Y" }}</p>
-                  </div>
-                    <h5>{{ post.title }}</h5>
-                    <p>{{ post.description }}</p>
-                    {% if post.image %}
-                    <img src="{{ post.image.url }}" class="img-fluid mb-3" alt="Image pour {{ post.title }}">
-                    {% endif %}
-                    <div class="d-flex justify-content-between align-items-center">
-                        <!-- Affichage du bouton "Créer une critique" si l'utilisateur n'a pas encore critiqué ce billet -->
-                        {% if post.id not in reviewed_tickets %}
-                            <a href="{% url 'create_review' post.id %}" class="btn btn-primary">Créer une critique</a>
-                        {% else %}
-                            <button class="btn btn-secondary" disabled>Critique déjà postée</button>
-                        {% endif %}
-                    </div>
-
-                    <!-- Affichage des critiques associées -->
-                    {% if post.reviews.exists %}  <!-- Vérifie s'il y a des critiques associées -->
-                    <hr>
-                    <h6>Critiques :</h6>
-                    {% for review in post.reviews %}
-                        <div class="border-bottom mb-3">
-                            <p><strong>{{ review.user.username }}</strong> {% if review.user == user %} (vous) {% endif %} a publié une critique</p>
-                            <p><strong>Note :</strong> {{ review.rating }} / 5</p>
-                            <p>{{ review.comment }}</p>
-                            <p class="text-muted text-end">{{ review.time_created|date:"H:i, d M Y" }}</p>
-                        </div>
-                    {% endfor %}
-                    {% endif %}
+<!-- Boucle pour afficher les billets et critiques -->
+<div role="region" aria-label="Liste des billets et critiques">
+  {% for post in posts %}
+      {% if post.post_type == 'ticket' %}
+          <!-- Affichage des billets -->
+          <div class="card mb-4 shadow-sm h-100">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between">
+                  <p><strong>{{ post.user.username }}</strong> {% if post.is_owner %} (vous) {% endif %} a demandé une critique</p>
+                  <p class="text-muted">{{ post.time_created|date:"H:i, d M Y" }}</p>
                 </div>
-            </div>
-        {% endif %}
-    {% endfor %}
+                  <h2>{{ post.title }}</h2>
+                  <p>{{ post.description }}</p>
+                  {% if post.image %}
+                  <img src="{{ post.image.url }}" class="img-fluid mb-3 card-img-top" alt="Illustration du billet : {{ post.title }}">
+                  {% endif %}
+                  <div class="d-flex justify-content-between align-items-center">
+                      {% if post.id not in reviewed_tickets %}
+                          <a href="{% url 'create_review' post.id %}" class="btn btn-primary" aria-label="Créer une critique pour le billet : {{ post.title }}">Créer une critique</a>
+                      {% else %}
+                          <button class="btn btn-secondary" disabled aria-disabled="true" aria-label="Vous avez déjà posté une critique pour ce billet.">Critique déjà postée</button>
+                      {% endif %}
+                  </div>
+
+                  <!-- Affichage des critiques associées -->
+                  {% if post.reviews.exists %}
+                  <hr>
+                  <h3>Critiques :</h3>
+                  {% for review in post.reviews %}
+                      <div class="border-bottom mb-3">
+                          <p><strong>{{ review.user.username }}</strong> {% if review.user == user %} (vous) {% endif %} a publié une critique</p>
+                          <div class="star-rating" aria-label="Évaluation : {{ review.rating }} sur 5">
+                              <div class="filled-stars" style="width: calc({{ review.rating }} * 20%);">
+                                  ★★★★★
+                              </div>
+                              ★★★★★
+                          </div>
+                          <p>{{ review.comment }}</p>
+                          <p class="text-muted text-end">{{ review.time_created|date:"H:i, d M Y" }}</p>
+                      </div>
+                  {% endfor %}
+                  {% endif %}
+              </div>
+          </div>
+      {% endif %}
+  {% endfor %}
 </div>
 {% endblock %}

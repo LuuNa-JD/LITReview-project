@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-5">
-    <h2>Confirmer la suppression du billet</h2>
-    <p>Êtes-vous sûr de vouloir supprimer le billet intitulé <strong>{{ ticket.title }}</strong> ?</p>
-    <form method="post">
+    <h2 id="confirm-delete-title">Confirmer la suppression du billet</h2>
+    <p id="confirm-delete-description">Êtes-vous sûr de vouloir supprimer le billet intitulé <strong>{{ ticket.title }}</strong> ?</p>
+    <form method="post" aria-labelledby="confirm-delete-title" aria-describedby="confirm-delete-description">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Confirmer</button>
-        <a href="{% url 'user_posts' %}" class="btn btn-secondary">Annuler</a>
+        <button type="submit" class="btn btn-danger" aria-label="Confirmer la suppression du billet intitulé {{ ticket.title }}">Confirmer</button>
+        <a href="{% url 'user_posts' %}" class="btn btn-secondary" aria-label="Annuler la suppression et revenir à la liste des billets">Annuler</a>
     </form>
 </div>
 {% endblock %}

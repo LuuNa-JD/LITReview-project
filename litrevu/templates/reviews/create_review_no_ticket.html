@@ -1,39 +1,97 @@
 {% extends 'base.html' %}
+
+{% block title %}Ajouter un billet et une critique{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Créer une critique</h2>
-    <form method="POST" enctype="multipart/form-data">
+    <h2 class="text-center mb-4">Créer un nouveau billet et une critique</h2>
+
+    <!-- Formulaire combiné d'ajout de billet et de création de critique -->
+    <form method="post" enctype="multipart/form-data" aria-labelledby="add-ticket-form">
         {% csrf_token %}
 
+        <!-- Partie du formulaire pour le billet -->
         <h3>Livre / Article</h3>
         <div class="mb-3">
-            {{ form.ticket_title.label_tag }}
-            {{ form.ticket_title }}
+            <label for="title" class="form-label">Titre du billet <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ form.ticket_title.value|default_if_none:'' }}" required aria-required="true" aria-describedby="title-help">
+            <div id="title-help" class="form-text">Entrez un titre pour le billet.</div>
+            {% if form.ticket_title.errors %}
+                <div class="text-danger" role="alert">
+                    {% for error in form.ticket_title.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
         <div class="mb-3">
-            {{ form.ticket_description.label_tag }}
-            {{ form.ticket_description }}
+            <label for="description" class="form-label">Description du billet <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="description" name="description" required aria-required="true" aria-describedby="description-help">{{ form.ticket_description.value|default_if_none:'' }}</textarea>
+            <div id="description-help" class="form-text">Décrivez le contenu du billet.</div>
+            {% if form.ticket_description.errors %}
+                <div class="text-danger" role="alert">
+                    {% for error in form.ticket_description.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
         <div class="mb-3">
-            {{ form.ticket_image.label_tag }}
-            {{ form.ticket_image }}
+            <label for="image" class="form-label">Image</label>
+            <input type="file" class="form-control" id="image" name="image" aria-describedby="image-help">
+            <div id="image-help" class="form-text">Ajoutez une image pour illustrer votre billet (optionnel).</div>
+            {% if form.ticket_image.errors %}
+                <div class="text-danger" role="alert">
+                    {% for error in form.ticket_image.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
 
+        <!-- Partie du formulaire pour la critique -->
         <h3>Critique</h3>
         <div class="mb-3">
-            {{ form.review_title.label_tag }}
-            {{ form.review_title }}
+            <label for="review_rating" class="form-label">Note : <span class="text-danger">*</span></label>
+            <div class="rate" id="review_rating" role="radiogroup" aria-labelledby="review-rating-label">
+                <input type="radio" id="star5" name="review_rating" value="5" aria-label="5 étoiles" />
+                <label for="star5" title="5 étoiles">&#9733;</label>
+
+                <input type="radio" id="star4" name="review_rating" value="4" aria-label="4 étoiles" />
+                <label for="star4" title="4 étoiles">&#9733;</label>
+
+                <input type="radio" id="star3" name="review_rating" value="3" aria-label="3 étoiles" />
+                <label for="star3" title="3 étoiles">&#9733;</label>
+
+                <input type="radio" id="star2" name="review_rating" value="2" aria-label="2 étoiles" />
+                <label for="star2" title="2 étoiles">&#9733;</label>
+
+                <input type="radio" id="star1" name="review_rating" value="1" aria-label="1 étoile" />
+                <label for="star1" title="1 étoile">&#9733;</label>
+            </div>
+            {% if form.review_rating.errors %}
+                <div class="text-danger" role="alert">
+                    {% for error in form.review_rating.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
         <div class="mb-3">
-            {{ form.review_rating.label_tag }}
-            {{ form.review_rating }}
-        </div>
-        <div class="mb-3">
-            {{ form.review_comment.label_tag }}
+            <label for="review_comment" class="form-label">Commentaire <span class="text-danger">*</span></label>
             {{ form.review_comment }}
+            <div id="review-comment-help" class="form-text">Ajoutez un commentaire détaillé pour cette critique.</div>
+            {% if form.review_comment.errors %}
+                <div class="text-danger" role="alert">
+                    {% for error in form.review_comment.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
 
-        <button type="submit" class="btn btn-primary">Envoyer</button>
+        <!-- Bouton de soumission combiné -->
+        <button type="submit" class="btn btn-primary mt-2" aria-label="Ajouter le billet et envoyer la critique">Ajouter le billet et envoyer la critique</button>
     </form>
 </div>
 {% endblock %}

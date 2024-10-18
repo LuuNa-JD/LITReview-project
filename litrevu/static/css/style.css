@@ -1,0 +1,150 @@
+body {
+  background-color: #f8f9fa;
+  color: #343a40;
+  font-family: 'Roboto', sans-serif;
+}
+.navbar {
+  background-color: #d5aa72 !important;
+  border-bottom: 1px solid #ddd;
+}
+.navbar-nav {
+  margin-left: auto;
+}
+.navbar-brand, .navbar-nav .nav-link {
+  color: #ffffff !important;
+  font-weight: bold;
+}
+.navbar-nav .nav-link:hover {
+  color: #4c2818 !important;
+}
+.navbar-brand {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Lato', sans-serif;
+  font-size: 2rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.card {
+  background-color: #ffffff;
+  border: 2px solid #6c757d;
+  display: flex;
+  flex-direction: column;
+}
+.card-header {
+  background-color: #d5aa72;
+}
+.card-body {
+  flex-grow: 1;
+}
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.card-text {
+  color: #6c757d;
+  margin-bottom: 20px;
+}
+.card-img-top {
+  width: 35%;
+  object-fit: contain;
+  border-bottom: 1px solid #dee2e6;
+  margin-bottom: 15px;
+}
+.card .btn {
+  margin-bottom: 0; /* Supprime les marges verticales sous les boutons */
+}
+.btn {
+  background: #4c2818;
+  color: #fff;
+  padding: 0.7rem 1.7rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+.btn:hover {
+  background: #fff;
+  box-shadow: 0px 2px 20px 10px #97B1BF;
+  color: #000;
+}
+.form-control {
+  border: 1px solid #6c757d;
+}
+.container {
+    padding-top: 20px;
+}
+.custom-link {
+  color: #5c3d2e;
+  text-decoration: none;
+}
+
+.custom-link:hover {
+  color: #3e2b1d;
+  text-decoration: underline;
+}
+.star-rating {
+    font-size: 1.5rem;
+    color: #d3d3d3;
+    position: relative;
+    display: inline-block;
+}
+
+.star-rating .filled-stars {
+    color: #ffc107;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.rate {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  height: 46px;
+  padding: 0 0px;
+  justify-content: flex-start;
+}
+
+.rate:not(:checked) > input {
+  position: absolute;
+  clip:rect(0,0,0,0)
+}
+
+.rate:not(:checked) > label {
+  float: right;
+  width: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 30px;
+  color: #ccc;
+}
+
+.rate:not(:checked) > label:before {
+  content: '★ ';
+}
+
+.rate > input:checked ~ label {
+  color: #ffc700;
+}
+
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+  color: #deb217;
+}
+
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+  color: #c59b08;
+}

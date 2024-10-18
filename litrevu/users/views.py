@@ -34,7 +34,7 @@ def login_view(request):
             return redirect('flux')  # Redirige l'utilisateur vers le flux de posts après connexion
         else:
             error_message = "Nom d'utilisateur ou mot de passe incorrect."
-            return render(request, 'users/login.html', {'error_message': error_message})
+            return render(request, 'registration/login.html', {'error_message': error_message})
     return render(request, 'registration/login.html')
 
 def logout_view(request):

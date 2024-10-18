@@ -7,10 +7,10 @@
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit" class="btn btn-primary btn-block mt-4">S'inscrire</button>
+                <button type="submit" class="btn btn-primary btn-block mt-4" aria-label="S'inscrire">S'inscrire</button>
             </form>
             <div class="text-center mt-3">
-                <a href="{% url 'login' %}">Déjà un compte ? Connectez-vous</a>
+                <a href="{% url 'login' %}" class="custom-link" aria-label="Se connecter">Déjà un compte ? Connectez-vous</a>
             </div>
         </div>
     </div>

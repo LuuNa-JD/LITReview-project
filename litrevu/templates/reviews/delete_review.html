@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center">Supprimer la Critique</h2>
-    <p>Êtes-vous sûr de vouloir supprimer cette critique pour "{{ review.ticket.title }}" ?</p>
-    <form method="post">
+    <h2 class="text-center" id="delete-review-title">Supprimer la Critique</h2>
+    <p id="delete-review-description">Êtes-vous sûr de vouloir supprimer cette critique pour <strong>{{ review.ticket.title }}</strong> ?</p>
+
+    <!-- Formulaire de confirmation de suppression -->
+    <form method="post" aria-labelledby="delete-review-title" aria-describedby="delete-review-description">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Supprimer</button>
-        <a href="{% url 'user_posts' %}" class="btn btn-secondary">Annuler</a>
+        <button type="submit" class="btn btn-danger" aria-label="Confirmer la suppression de la critique pour le billet {{ review.ticket.title }}">Supprimer</button>
+        <a href="{% url 'user_posts' %}" class="btn btn-secondary" aria-label="Annuler la suppression et revenir à la liste des billets">Annuler</a>
     </form>
 </div>
 {% endblock %}

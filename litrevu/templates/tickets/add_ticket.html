@@ -7,14 +7,17 @@
         <div class="col-md-6">
             <h2>Ajouter un nouveau billet</h2>
 
-            <form method="post" enctype="multipart/form-data">
+            <!-- Formulaire d'ajout de billet -->
+            <form method="post" enctype="multipart/form-data" aria-labelledby="add-ticket-form">
                 {% csrf_token %}
 
+                <!-- Champ de saisie pour le titre -->
                 <div class="mb-3">
-                    <label for="title" class="form-label">Titre du billet</label>
-                    <input type="text" class="form-control" id="title" name="title" value="{{ form.title.value|default_if_none:'' }}" required>
+                    <label for="title" class="form-label">Titre <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="title" name="title" value="{{ form.title.value|default_if_none:'' }}" required aria-required="true" aria-describedby="title-help">
+                    <div id="title-help" class="form-text">Entrez un titre pour le billet.</div>
                     {% if form.title.errors %}
-                        <div class="text-danger">
+                        <div class="text-danger" role="alert">
                             {% for error in form.title.errors %}
                                 <p>{{ error }}</p>
                             {% endfor %}
@@ -22,11 +25,13 @@
                     {% endif %}
                 </div>
 
+                <!-- Champ de saisie pour la description -->
                 <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" name="description" required>{{ form.description.value|default_if_none:'' }}</textarea>
+                    <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="description" name="description" required aria-required="true" aria-describedby="description-help">{{ form.description.value|default_if_none:'' }}</textarea>
+                    <div id="description-help" class="form-text">Décrivez le contenu du billet.</div>
                     {% if form.description.errors %}
-                        <div class="text-danger">
+                        <div class="text-danger" role="alert">
                             {% for error in form.description.errors %}
                                 <p>{{ error }}</p>
                             {% endfor %}
@@ -34,11 +39,13 @@
                     {% endif %}
                 </div>
 
+                <!-- Champ d'ajout d'image -->
                 <div class="mb-3">
                     <label for="image" class="form-label">Image</label>
-                    <input type="file" class="form-control" id="image" name="image">
+                    <input type="file" class="form-control" id="image" name="image" aria-describedby="image-help">
+                    <div id="image-help" class="form-text">Ajoutez une image pour illustrer votre billet (optionnel).</div>
                     {% if form.image.errors %}
-                        <div class="text-danger">
+                        <div class="text-danger" role="alert">
                             {% for error in form.image.errors %}
                                 <p>{{ error }}</p>
                             {% endfor %}
@@ -46,7 +53,8 @@
                     {% endif %}
                 </div>
 
-                <button type="submit" class="btn btn-primary">Ajouter le billet</button>
+                <!-- Bouton de soumission -->
+                <button type="submit" class="btn btn-primary" aria-label="Ajouter un nouveau billet">Ajouter le billet</button>
             </form>
         </div>
     </div>

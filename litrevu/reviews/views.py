@@ -14,10 +14,22 @@ def create_review_view(request, ticket_id):
             review = form.save(commit=False)
             review.user = request.user
             review.ticket = ticket
+
+            # Récupérer la note du POST
+            rating = request.POST.get('review_rating')
+            if not rating:  # Si aucune note n'est sélectionnée
+                return render(request, 'reviews/create_review.html', {
+                    'form': form,
+                    'ticket': ticket,
+                    'error_message': 'Vous devez sélectionner une note.'
+                })
+            review.rating = int(rating)  # Assurer que la note est un entier
             review.save()
+
             return redirect('flux')
     else:
         form = ReviewForm()
+
     return render(request, 'reviews/create_review.html', {'form': form, 'ticket': ticket})
 
 @login_required
@@ -33,10 +45,18 @@ def create_review_no_ticket_view(request):
                 user=request.user
             )
 
+            # Récupérer la note du POST
+            rating = request.POST.get('review_rating')
+            if not rating:  # Si aucune note n'est sélectionnée
+                return render(request, 'reviews/create_review_no_ticket.html', {
+                    'form': form,
+                    'error_message': 'Vous devez sélectionner une note.'
+                })
+
             # Créer la critique associée
             Review.objects.create(
                 ticket=ticket,
-                rating=form.cleaned_data['review_rating'],
+                rating=int(rating),  # Assurer que la note est un entier
                 comment=form.cleaned_data['review_comment'],
                 user=request.user
             )
@@ -47,17 +67,30 @@ def create_review_no_ticket_view(request):
 
     return render(request, 'reviews/create_review_no_ticket.html', {'form': form})
 
+
 @login_required
 def edit_review_view(request, review_id):
     review = get_object_or_404(Review, id=review_id, user=request.user)
     if request.method == 'POST':
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
+            # Récupérer la note du POST
+            rating = request.POST.get('review_rating')
+            if not rating:  # Si aucune note n'est sélectionnée
+                return render(request, 'reviews/edit_review.html', {
+                    'form': form,
+                    'review': review,
+                    'error_message': 'Vous devez sélectionner une note.'
+                })
+
+            # Mettre à jour la critique avec la nouvelle note
+            review.rating = int(rating)  # Assurer que la note est un entier
             form.save()
             return redirect('user_posts')
     else:
         form = ReviewForm(instance=review)
     return render(request, 'reviews/edit_review.html', {'form': form, 'review': review})
+
 
 @login_required
 def delete_review_view(request, review_id):

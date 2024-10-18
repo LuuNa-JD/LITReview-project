@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-4">
     <h2 class="text-center">Vos posts</h2>
 
     <!-- Affichage des tickets de l'utilisateur -->
@@ -10,11 +10,11 @@
             <h4 class="card-title">{{ ticket.title }}</h4>
             <p>{{ ticket.description }}</p>
             {% if ticket.image %}
-                <img src="{{ ticket.image.url }}" class="img-fluid mb-3" alt="Image pour {{ ticket.title }}">
+                <img src="{{ ticket.image.url }}" class="img-fluid mb-3" alt="Illustration du billet : {{ ticket.title }}">
             {% endif %}
             <p class="text-muted">Posté le {{ ticket.time_created|date:"d M Y H:i" }}</p>
-            <a href="{% url 'edit_ticket' ticket.id %}" class="btn btn-secondary">Modifier</a>
-            <a href="{% url 'delete_ticket' ticket.id %}" class="btn btn-danger">Supprimer</a>
+            <a href="{% url 'edit_ticket' ticket.id %}" class="btn btn-secondary" aria-label="Modifier le billet intitulé {{ ticket.title }}">Modifier</a>
+            <a href="{% url 'delete_ticket' ticket.id %}" class="btn btn-danger" aria-label="Supprimer le billet intitulé {{ ticket.title }}">Supprimer</a>
         </div>
 
         <!-- Critiques sur ce ticket faites par d'autres utilisateurs -->
@@ -41,11 +41,16 @@
     <div class="card mb-4">
         <div class="card-body">
             <h4 class="card-title">Critique pour {{ review.ticket.title }}</h4>
+            <div class="star-rating" aria-label="Évaluation : {{ review.rating }} sur 5">
+                <div class="filled-stars" style="width: calc({{ review.rating }} * 20%);">
+                    ★★★★★
+                </div>
+                ★★★★★
+            </div>
             <p>{{ review.comment }}</p>
-            <p><strong>Note :</strong> {{ review.rating }} / 5</p>
             <p class="text-muted">Posté le {{ review.time_created|date:"d M Y H:i" }}</p>
-            <a href="{% url 'edit_review' review.id %}" class="btn btn-secondary">Modifier</a>
-            <a href="{% url 'delete_review' review.id %}" class="btn btn-danger">Supprimer</a>
+            <a href="{% url 'edit_review' review.id %}" class="btn btn-secondary" aria-label="Modifier la critique du billet {{ review.ticket.title }}">Modifier</a>
+            <a href="{% url 'delete_review' review.id %}" class="btn btn-danger" aria-label="Supprimer la critique du billet {{ review.ticket.title }}">Supprimer</a>
         </div>
     </div>
     {% endfor %}

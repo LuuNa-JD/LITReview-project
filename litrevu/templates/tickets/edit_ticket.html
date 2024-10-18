@@ -1,20 +1,23 @@
 {% extends 'base.html' %}
 
-{% block title %}Modifier le ticket{% endblock %}
+{% block title %}Modifier le billet{% endblock %}
 
 {% block content %}
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h2>Modifier le ticket</h2>
+            <h2 id="edit-ticket-title">Modifier le billet</h2>
 
-            <form method="post" enctype="multipart/form-data">
+            <!-- Formulaire de modification du billet -->
+            <form method="post" enctype="multipart/form-data" aria-labelledby="edit-ticket-title">
                 {% csrf_token %}
 
+                <!-- Champ de saisie pour le titre -->
                 <div class="mb-3">
-                    <label for="title" class="form-label">Titre du Ticket</label>
-                    <input type="text" class="form-control" id="title" name="title" value="{{ form.title.value }}" required>
+                    <label for="title" class="form-label">Titre <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="title" name="title" value="{{ form.title.value }}" required aria-required="true" aria-describedby="title-help">
+                    <div id="title-help" class="form-text">Entrez un titre pour le billet.</div>
                     {% if form.title.errors %}
-                        <div class="text-danger">
+                        <div class="text-danger" role="alert">
                             {% for error in form.title.errors %}
                                 <p>{{ error }}</p>
                             {% endfor %}
@@ -22,11 +25,13 @@
                     {% endif %}
                 </div>
 
+                <!-- Champ de saisie pour la description -->
                 <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" name="description" required>{{ form.description.value }}</textarea>
+                    <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="description" name="description" required aria-required="true" aria-describedby="description-help">{{ form.description.value }}</textarea>
+                    <div id="description-help" class="form-text">Décrivez le contenu du billet.</div>
                     {% if form.description.errors %}
-                        <div class="text-danger">
+                        <div class="text-danger" role="alert">
                             {% for error in form.description.errors %}
                                 <p>{{ error }}</p>
                             {% endfor %}
@@ -34,21 +39,22 @@
                     {% endif %}
                 </div>
 
-                <!-- Afficher l'image actuelle si elle existe -->
+                <!-- Affichage de l'image actuelle, si elle existe -->
                 {% if form.instance.image %}
                     <div class="mb-3">
                         <label class="form-label">Image actuelle :</label>
                         <div>
-                            <img src="{{ form.instance.image.url }}" alt="Image actuelle" class="img-fluid mb-3">
+                            <img src="{{ form.instance.image.url }}" alt="Image actuelle du billet" class="img-fluid mb-3">
                         </div>
                     </div>
                 {% endif %}
 
+                <!-- Champ d'ajout d'une nouvelle image -->
                 <div class="mb-3">
                     <label for="image" class="form-label">Changer d'image</label>
-                    <input type="file" class="form-control" id="image" name="image">
+                    <input type="file" class="form-control" id="image" name="image" aria-describedby="image-help">
                     {% if form.image.errors %}
-                        <div class="text-danger">
+                        <div class="text-danger" role="alert">
                             {% for error in form.image.errors %}
                                 <p>{{ error }}</p>
                             {% endfor %}
@@ -56,7 +62,8 @@
                     {% endif %}
                 </div>
 
-                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                <!-- Bouton de soumission -->
+                <button type="submit" class="btn btn-primary" aria-label="Enregistrer les modifications apportées au billet intitulé {{ form.title.value }}">Enregistrer les modifications</button>
             </form>
         </div>
     </div>

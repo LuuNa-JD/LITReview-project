@@ -4,20 +4,24 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <h2 class="text-center">Connexion</h2>
+            {% if error_message %}
+              <p style="color: red;">{{ error_message }}</p>
+            {% endif %}
             <form method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="username">Nom d'utilisateur</label>
-                    <input type="text" class="form-control" id="username" name="username" required>
+                    <label for="username">Nom d'utilisateur <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="username" name="username" required aria-required="true" aria-describedby="usernameHelp" aria-label="Nom d'utilisateur">
+                    <small id="usernameHelp" class="form-text text-muted">Votre nom d'utilisateur unique.</small>
                 </div>
                 <div class="form-group mt-3">
-                    <label for="password">Mot de passe</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                    <label for="password">Mot de passe <span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" id="password" name="password" required aria-required="true" aria-label="Mot de passe">
                 </div>
-                <button type="submit" class="btn btn-primary btn-block mt-4">Se connecter</button>
+                <button type="submit" class="btn btn-primary btn-block mt-4" aria-label="Se connecter">Se connecter</button>
             </form>
             <div class="text-center mt-3">
-                <a href="{% url 'signup' %}">Pas encore inscrit ? Créez un compte</a>
+                <a href="{% url 'signup' %}" class="custom-link" aria-label="Créer un compte">Pas encore inscrit ? Créez un compte</a>
             </div>
         </div>
     </div>

@@ -2,6 +2,9 @@ from django.shortcuts import render
 from itertools import chain
 from tickets.models import Ticket
 from reviews.models import Review
+from tickets.forms import TicketForm
+from reviews.forms import ReviewForm
+from django.shortcuts import redirect
 from users.models import UserFollows
 from django.contrib.auth.decorators import login_required
 
@@ -54,3 +57,42 @@ def user_posts(request):
     }
 
     return render(request, 'posts.html', context)
+
+
+@login_required
+def create_ticket_and_review_view(request):
+    if request.method == 'POST':
+        ticket_form = TicketForm(request.POST, request.FILES)
+        review_form = ReviewForm(request.POST)
+
+        if ticket_form.is_valid() and review_form.is_valid():
+            # Créer le billet (Ticket)
+            ticket = ticket_form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+
+            # Créer la critique (Review) associée au billet
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.ticket = ticket
+
+            # Récupérer la note du POST
+            rating = request.POST.get('review_rating')
+            if not rating:
+                return render(request, 'tickets/create_ticket_and_review.html', {
+                    'ticket_form': ticket_form,
+                    'review_form': review_form,
+                    'error_message': 'Vous devez sélectionner une note.'
+                })
+            review.rating = int(rating)  # Convertir la note en entier
+            review.save()
+
+            return redirect('flux')  # Redirige après la création
+    else:
+        ticket_form = TicketForm()
+        review_form = ReviewForm()
+
+    return render(request, 'create_ticket_and_review.html', {
+        'ticket_form': ticket_form,
+        'review_form': review_form
+    })

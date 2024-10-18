@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import ReviewForm
-from .forms import ReviewNoTicketForm
 from tickets.models import Ticket
 from .models import Review
 
@@ -31,42 +30,6 @@ def create_review_view(request, ticket_id):
         form = ReviewForm()
 
     return render(request, 'reviews/create_review.html', {'form': form, 'ticket': ticket})
-
-@login_required
-def create_review_no_ticket_view(request):
-    if request.method == 'POST':
-        form = ReviewNoTicketForm(request.POST, request.FILES)
-        if form.is_valid():
-            # Créer un ticket avec les données du formulaire
-            ticket = Ticket.objects.create(
-                title=form.cleaned_data['ticket_title'],
-                description=form.cleaned_data['ticket_description'],
-                image=form.cleaned_data['ticket_image'],
-                user=request.user
-            )
-
-            # Récupérer la note du POST
-            rating = request.POST.get('review_rating')
-            if not rating:  # Si aucune note n'est sélectionnée
-                return render(request, 'reviews/create_review_no_ticket.html', {
-                    'form': form,
-                    'error_message': 'Vous devez sélectionner une note.'
-                })
-
-            # Créer la critique associée
-            Review.objects.create(
-                ticket=ticket,
-                rating=int(rating),  # Assurer que la note est un entier
-                comment=form.cleaned_data['review_comment'],
-                user=request.user
-            )
-
-            return redirect('flux')  # Rediriger vers la page du flux après création
-    else:
-        form = ReviewNoTicketForm()
-
-    return render(request, 'reviews/create_review_no_ticket.html', {'form': form})
-
 
 @login_required
 def edit_review_view(request, review_id):

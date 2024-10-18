@@ -12,7 +12,11 @@
             <!-- Affichage des billets -->
             <div class="card mb-4">
                 <div class="card-body">
+                  <div class="d-flex justify-content-between">
                     <p><strong>{{ post.user.username }}</strong> {% if post.is_owner %} (vous) {% endif %} a demandé une critique</p>
+                    <!-- Ajout de la date de création du billet en haut à droite -->
+                    <p class="text-muted">{{ post.time_created|date:"H:i, d M Y" }}</p>
+                  </div>
                     <h5>{{ post.title }}</h5>
                     <p>{{ post.description }}</p>
                     {% if post.image %}

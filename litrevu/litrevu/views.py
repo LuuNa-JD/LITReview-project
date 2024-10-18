@@ -18,7 +18,7 @@ def flux_view(request):
 
     # Récupérer les billets et critiques des utilisateurs suivis
     tickets = Ticket.objects.filter(user__in=followed_users).order_by('-time_created')
-    reviews = Review.objects.filter(user__in=followed_users).order_by('-time_created')
+    reviews = Review.objects.filter(ticket__in=tickets).order_by('-time_created')
 
     # Récupérer les billets que l'utilisateur connecté a déjà critiqués
     reviewed_tickets = Review.objects.filter(user=request.user).values_list('ticket_id', flat=True)

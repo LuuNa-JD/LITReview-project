@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Ticket
 from .forms import TicketForm
 
-# Vue pour créer un ticket
+
 @login_required
 def add_ticket(request):
     if request.method == 'POST':
@@ -17,7 +17,7 @@ def add_ticket(request):
         form = TicketForm()
     return render(request, 'tickets/add_ticket.html', {'form': form})
 
-# Vue pour modifier un ticket
+
 @login_required
 def edit_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id, user=request.user)  # Assure que seul l'auteur peut modifier
@@ -30,7 +30,7 @@ def edit_ticket(request, ticket_id):
         form = TicketForm(instance=ticket)
     return render(request, 'tickets/edit_ticket.html', {'form': form, 'ticket': ticket})
 
-# Vue pour supprimer un ticket
+
 @login_required
 def delete_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id, user=request.user)  # Assure que seul l'auteur peut supprimer

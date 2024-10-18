@@ -4,6 +4,7 @@ from .forms import ReviewForm
 from tickets.models import Ticket
 from .models import Review
 
+
 @login_required
 def create_review_view(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
@@ -30,6 +31,7 @@ def create_review_view(request, ticket_id):
         form = ReviewForm()
 
     return render(request, 'reviews/create_review.html', {'form': form, 'ticket': ticket})
+
 
 @login_required
 def edit_review_view(request, review_id):
@@ -62,6 +64,7 @@ def delete_review_view(request, review_id):
         review.delete()
         return redirect('user_posts')
     return render(request, 'reviews/delete_review.html', {'review': review})
+
 
 @login_required
 def delete_ticket_with_review(request, ticket_id):

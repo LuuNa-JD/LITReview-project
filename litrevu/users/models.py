@@ -26,6 +26,7 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(username, email, password, **extra_fields)
 
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=150, unique=True)  # Le pseudo est obligatoire et unique
     email = models.EmailField(unique=True)
@@ -42,6 +43,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username  # Affiche le pseudo dans l'admin
+
 
 class UserFollows(models.Model):
     user = models.ForeignKey(

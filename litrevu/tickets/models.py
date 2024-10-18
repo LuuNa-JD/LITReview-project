@@ -1,7 +1,6 @@
 from django.db import models
-
-from django.db import models
 from django.conf import settings
+
 
 class Ticket(models.Model):
     title = models.CharField(max_length=128)
@@ -10,7 +9,7 @@ class Ticket(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
     )
-    image = models.ImageField(null=True, blank=True)  # Stocker les images dans 'ticket_images/'
+    image = models.ImageField(null=True, blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

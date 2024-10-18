@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, UserFollows
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 
+
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
     add_form = CustomUserCreationForm
@@ -17,11 +18,12 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'username', 'first_name', 'last_name', 'password1', 'password2', 'is_staff', 'is_active', 'groups', 'user_permissions')},
-        ),
+            'fields': ('email', 'username', 'first_name', 'last_name', 'password1', 'password2', 'is_staff', 'is_active', 'groups', 'user_permissions')
+        }),
     )
     search_fields = ('email', 'username')
     ordering = ['email']
+
 
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(UserFollows)

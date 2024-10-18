@@ -1,14 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
 from django.contrib.auth import logout
 from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from .models import UserFollows
 from django.contrib import messages
+
+User = get_user_model()
+
 
 def signup_view(request):
     if request.method == 'POST':
@@ -21,9 +23,10 @@ def signup_view(request):
         form = CustomUserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
 
+
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('flux') # Redirige l'utilisateur connecté vers le flux de posts
+        return redirect('flux')  # Redirige l'utilisateur connecté vers le flux de posts
 
     if request.method == 'POST':
         username = request.POST['username']
@@ -37,9 +40,11 @@ def login_view(request):
             return render(request, 'registration/login.html', {'error_message': error_message})
     return render(request, 'registration/login.html')
 
+
 def logout_view(request):
     logout(request)
     return redirect('login')
+
 
 @login_required
 def subscriptions_view(request):
@@ -72,7 +77,6 @@ def subscriptions_view(request):
     }
     return render(request, 'subscriptions.html', context)
 
-User = get_user_model()
 
 @login_required
 def unfollow_user(request, user_id):

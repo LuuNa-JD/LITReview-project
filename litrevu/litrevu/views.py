@@ -8,8 +8,10 @@ from django.shortcuts import redirect
 from users.models import UserFollows
 from django.contrib.auth.decorators import login_required
 
+
 def home_view(request):
     return render(request, 'login.html')
+
 
 @login_required
 def flux_view(request):
@@ -38,6 +40,7 @@ def flux_view(request):
         'reviewed_tickets': reviewed_tickets,  # Utilisé dans le template pour savoir si l'utilisateur a déjà critiqué un billet
     }
     return render(request, 'flux.html', context)
+
 
 @login_required
 def user_posts(request):

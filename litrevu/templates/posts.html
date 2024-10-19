@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+
 {% block content %}
 <div class="container mt-4">
     <h2 class="text-center">Vos posts</h2>
 
     <!-- Affichage des tickets de l'utilisateur -->
     {% for ticket in user_tickets %}
-    <div class="card mb-4">
+    <div class="card mb-4 d-flex flex-column">
         <div class="card-body">
             <h4 class="card-title">{{ ticket.title }}</h4>
             <p>{{ ticket.description }}</p>
@@ -15,26 +16,27 @@
             <p class="text-muted">Posté le {{ ticket.time_created|date:"d M Y H:i" }}</p>
             <a href="{% url 'edit_ticket' ticket.id %}" class="btn btn-secondary" aria-label="Modifier le billet intitulé {{ ticket.title }}">Modifier</a>
             <a href="{% url 'delete_ticket' ticket.id %}" class="btn btn-danger" aria-label="Supprimer le billet intitulé {{ ticket.title }}">Supprimer</a>
-
+        </div>
 
         <!-- Critiques sur ce ticket faites par d'autres utilisateurs -->
         {% if reviews_on_user_tickets %}
         <hr>
-        <h6>Critiques sur ce ticket :</h6>
+        <div class="p-3">
+          <h5>Critiques sur ce ticket :</h5>
+        </div>
         {% for review in reviews_on_user_tickets %}
             {% if review.ticket == ticket %}
-            <div class="border-bottom mb-3">
+            <div class="border-bottom mb-3 p-3">
                 <p><strong>{{ review.user.username }}</strong> a publié une critique</p>
                 <div class="star-rating" aria-label="Évaluation : {{ review.rating }} sur 5">
-                  <div class="filled-stars" style="width: calc({{ review.rating }} * 20%);">
-                      ★★★★★
-                  </div>
-                  ★★★★★
+                    <div class="filled-stars" style="width: calc({{ review.rating }} * 20%);">
+                        ★★★★★
+                    </div>
+                    ★★★★★
                 </div>
                 <p>{{ review.comment }}</p>
                 <p class="text-muted text-end">{{ review.time_created|date:"H:i, d M Y" }}</p>
             </div>
-          </div>
             {% endif %}
         {% endfor %}
         {% endif %}
@@ -44,7 +46,7 @@
     <!-- Affichage des critiques de l'utilisateur -->
     <h2 class="text-center">Vos critiques</h2>
     {% for review in user_reviews %}
-    <div class="card mb-4">
+    <div class="card mb-4 d-flex flex-column">
         <div class="card-body">
             <h4 class="card-title">Critique pour {{ review.ticket.title }}</h4>
             <div class="star-rating" aria-label="Évaluation : {{ review.rating }} sur 5">

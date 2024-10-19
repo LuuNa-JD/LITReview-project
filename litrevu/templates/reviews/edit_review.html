@@ -9,7 +9,7 @@
             <h5 class="card-title">{{ review.ticket.user.username }} a demandé une critique</h5>
             <p class="card-text"><strong>{{ review.ticket.title }}</strong> - {{ review.ticket.description }}</p>
             {% if review.ticket.image %}
-                <img src="{{ review.ticket.image.url }}" class="img-fluid mb-3" alt="Illustration pour le billet : {{ review.ticket.title }}">
+                <img src="{{ review.ticket.image.url }}" class="img-fluid mb-3 card-img-top" alt="Illustration pour le billet : {{ review.ticket.title }}">
             {% endif %}
             <p class="text-muted">{{ review.ticket.time_created|date:"H:i, d M Y" }}</p>
         </div>

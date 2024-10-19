@@ -55,7 +55,7 @@ Pour tester l'application, vous pouvez utiliser les comptes suivants :
    - Nom d'utilisateur : `Admin`
    - Mot de passe : `Azerty123*`
 
-2. **Utilisateur 2**
+2. **Utilisateur Simple**
    - Nom d'utilisateur : `Harry`
    - Mot de passe : `Azerty123*`
 

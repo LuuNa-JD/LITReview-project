@@ -36,6 +36,20 @@ Ma nouvelle application permet de demander ou publier des critiques de livres ou
     Pour obtenir la clé secrete, vous pouvez me la demander par mail.
 
 4. La base de données SQLite `db.sqlite3` est incluse dans ce projet.
+    Si vous souhaitez utiliser une nouvelle base de données, vous pouvez la créer en exécutant les commandes suivantes :
+
+    ```bash
+    python manage.py makemigrations
+    python manage.py migrate
+    ```
+
+5. Créez un superutilisateur :
+
+   ```bash
+   python manage.py createsuperuser
+   ```
+
+   Suivez les instructions pour créer un superutilisateur.
 
 ## Démarrer l'application
 

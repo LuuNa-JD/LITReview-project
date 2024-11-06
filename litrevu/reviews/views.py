@@ -72,7 +72,8 @@ def delete_ticket_with_review(request, ticket_id):
 
     # Vérifie si l'utilisateur est bien le créateur du ticket
     if ticket.user == request.user:
-        # Supprimer le ticket entraînera également la suppression de la critique associée grâce à on_delete=models.CASCADE
+        # Supprimer le ticket entraînera également la suppression de la critique associée
+        # grâce à on_delete=models.CASCADE
         ticket.delete()
 
         return redirect('user_posts')  # Redirection après suppression

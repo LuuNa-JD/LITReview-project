@@ -37,7 +37,8 @@ def flux_view(request):
 
     context = {
         'posts': sorted(chain(tickets, reviews), key=lambda post: post.time_created, reverse=True),
-        'reviewed_tickets': reviewed_tickets,  # Utilisé dans le template pour savoir si l'utilisateur a déjà critiqué un billet
+        'reviewed_tickets': reviewed_tickets,  # Utilisé dans le template pour savoir si l'utilisateur
+                                               # a déjà critiqué un billet
     }
     return render(request, 'flux.html', context)
 

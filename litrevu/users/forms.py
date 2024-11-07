@@ -5,7 +5,7 @@ from .models import CustomUser
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = ('email', 'username', 'first_name', 'last_name')  # Inclure le champ username
+        fields = ('email', 'username', 'first_name', 'last_name')
         labels = {
             'email': 'Adresse email',
             'username': 'Nom d\'utilisateur',
@@ -17,4 +17,4 @@ class CustomUserCreationForm(UserCreationForm):
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = ('email', 'username', 'first_name', 'last_name')  # Inclure le champ username
+        fields = ('email', 'username', 'first_name', 'last_name')

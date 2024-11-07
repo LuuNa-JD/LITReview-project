@@ -55,7 +55,7 @@ Ma nouvelle application permet de demander ou publier des critiques de livres ou
 ## Démarrer l'application
 
 1. Démarrez le serveur :
-
+    activez votre environnement virtuel si vous en avez un, puis exécutez la commande suivante :
    ```bash
    python manage.py runserver
    ```

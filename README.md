@@ -45,6 +45,7 @@ Ma nouvelle application permet de demander ou publier des critiques de livres ou
 
 5. Créez un superutilisateur :
 
+    Pas besoin de créer un superutilisateur si vous utilisez la base de données SQLite fournie.
    ```bash
    python manage.py createsuperuser
    ```

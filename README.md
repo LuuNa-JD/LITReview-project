@@ -22,20 +22,46 @@ Ma nouvelle application permet de demander ou publier des critiques de livres ou
    cd LITReview-project
    ```
 
-2. Installez les dépendances :
+2. Créez un environnement virtuel :
+
+   ```bash
+   python -m venv venv
+   ```
+
+   Activez l'environnement virtuel :
+
+   - Sur Windows :
+
+     ```bash
+     venv\Scripts\activate
+     ```
+
+   - Sur macOS et Linux :
+
+     ```bash
+     source venv/bin/activate
+     ```
+
+   Pour désactiver l'environnement virtuel, exécutez la commande suivante :
+
+   ```bash
+   deactivate
+   ```
+
+3. Installez les dépendances :
 
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Créez un fichier `.env` à la racine de votre projet et ajoutez-y votre clé secrète.
+4. Créez un fichier `.env` à la racine de votre projet et ajoutez-y votre clé secrète.
    Exemple de contenu `.env` :
    ```plaintext
    SECRET_KEY='votre_clé_secrète'
    ```
     Pour obtenir la clé secrete, vous pouvez me la demander par mail.
 
-4. La base de données SQLite `db.sqlite3` est incluse dans ce projet.
+5. La base de données SQLite `db.sqlite3` est incluse dans ce projet.
     Si vous souhaitez utiliser une nouvelle base de données, vous pouvez la créer en exécutant les commandes suivantes :
 
     ```bash
@@ -43,7 +69,7 @@ Ma nouvelle application permet de demander ou publier des critiques de livres ou
     python manage.py migrate
     ```
 
-5. Créez un superutilisateur :
+6. Créez un superutilisateur :
 
     Pas besoin de créer un superutilisateur si vous utilisez la base de données SQLite fournie.
    ```bash
@@ -55,7 +81,7 @@ Ma nouvelle application permet de demander ou publier des critiques de livres ou
 ## Démarrer l'application
 
 1. Démarrez le serveur :
-    activez votre environnement virtuel si vous en avez un, puis exécutez la commande suivante :
+    - Activez votre environnement virtuel si ce n'est pas déjà fait.
    ```bash
    python manage.py runserver
    ```

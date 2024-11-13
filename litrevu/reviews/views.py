@@ -41,15 +41,8 @@ def edit_review_view(request, review_id):
         if form.is_valid():
             # Récupérer la note du POST
             rating = request.POST.get('review_rating')
-            if not rating:  # Si aucune note n'est sélectionnée
-                return render(request, 'reviews/edit_review.html', {
-                    'form': form,
-                    'review': review,
-                    'error_message': 'Vous devez sélectionner une note.'
-                })
-
-            # Mettre à jour la critique avec la nouvelle note
-            review.rating = int(rating)  # Assurer que la note est un entier
+            if rating:
+                review.rating = int(rating)  # Assurer que la note est un entier
             form.save()
             return redirect('user_posts')
     else:
